@@ -1,0 +1,43 @@
+
+#header{
+	background-color:#c0c0c0;
+}
+
+.registro{
+	width:400px;
+	margin:auto;
+	margin-top: 100px;
+	background-color:grey;
+	height:300px;
+}
+
+.registro input{
+	width:90%;
+	margin: 10px;
+}
+
+
+
+h1{
+	font-size: 80px;
+	padding:50px;
+	text-align:center;
+	margin:auto;
+}
+
+#cuerpo{
+	height:200px;
+	background-color:#c0c0c0;
+	padding:15px;
+}
+
+
+#footer{
+	background-color:grey;
+	padding:15px;
+}
+
+#navbar{
+	margin:5px;
+	text-align:center;
+}
