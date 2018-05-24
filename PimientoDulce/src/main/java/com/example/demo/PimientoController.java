@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PimientoController {
+	
+	@Autowired
+	private Environment env;
 	
 		@GetMapping("/")
 		public String main() {
@@ -32,7 +37,7 @@ public class PimientoController {
 		@PostMapping("/insertar-usuario")
 		public String insertarUsuario(@RequestParam String nombre, @RequestParam String password, @RequestParam String email) throws SQLException {
 			Connection connection;
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Ejemplo","postgres","admin");
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
 			PreparedStatement consulta = 
 					connection.prepareStatement("INSERT INTO usuarios(nombre, contrasenia, email) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
