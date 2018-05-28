@@ -20,7 +20,9 @@ form input{
 	padding:5px;
 }
 
-
+.card-img{
+	width:175px;
+}
 
 h1{
 	font-size: 80px;
