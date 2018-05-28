@@ -1,17 +1,22 @@
 package com.example.demo;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.model.Libro;
 
 @Controller
 public class PimientoController {
@@ -25,8 +30,60 @@ public class PimientoController {
 		}
 		
 		@GetMapping("/libros")
-		public String libros() {
-			return "libros";
+		public String libros(Model template) throws SQLException {
+			
+			Connection connection;
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+			
+			PreparedStatement consulta = 
+					connection.prepareStatement("SELECT * FROM libros;");
+			
+			ResultSet resultado = consulta.executeQuery();
+			
+			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
+			
+			while ( resultado.next() ) {
+				int id = resultado.getInt("id");
+				String titulo = resultado.getString("titulo");
+				String descripcion = resultado.getString("descripcion");
+				String resenia = resultado.getString("resenia");
+				
+				Libro x = new Libro(id, titulo, descripcion, resenia);
+				listadoLibros.add(x);
+			}
+			
+			template.addAttribute("listadoLibros", listadoLibros);
+			
+			return "listadoLibros";
+		}
+		
+		@GetMapping("/procesarLibros")
+		public String procesarBusqueda(Model template, @RequestParam String palabraBuscada) throws SQLException {
+			
+			Connection connection;
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+			
+			PreparedStatement consulta = 
+					connection.prepareStatement("SELECT * FROM libros WHERE nombre LIKE ?;");
+			consulta.setString(1, "%" + palabraBuscada +  "%");
+			
+			ResultSet resultado = consulta.executeQuery();
+			
+			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
+			
+			while ( resultado.next() ) {
+				int id = resultado.getInt("id");
+				String titulo = resultado.getString("titulo");
+				String descripcion = resultado.getString("descripcion");
+				String resenia = resultado.getString("resenia");
+				
+				Libro x = new Libro(id, titulo, descripcion, resenia);
+				listadoLibros.add(x);
+			}
+			
+			template.addAttribute("listadoLibros", listadoLibros);
+			
+			return "listadoUsuarios";
 		}
 		
 		@GetMapping("/registrarse")
