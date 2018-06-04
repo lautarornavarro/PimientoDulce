@@ -37,11 +37,11 @@ public class Libro {
 		this.descripcion = descripcion;
 	}
 
-	public String getresenia() {
+	public String getResenia() {
 		return resenia;
 	}
 
-	public void setresenia(String resenia) {
+	public void setResenia(String resenia) {
 		this.resenia = resenia;
 	}
 

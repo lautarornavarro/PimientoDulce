@@ -58,7 +58,7 @@ public class PimientoController {
 		}
 		
 		@GetMapping("/procesarLibros")
-		public String procesarBusqueda(Model template, @RequestParam String palabraBuscada) throws SQLException {
+		public String procesarLibros(Model template, @RequestParam String palabraBuscada) throws SQLException {
 			
 			Connection connection;
 			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
@@ -118,6 +118,35 @@ public class PimientoController {
 			connection.close();
 			return "redirect:/registrarse";
 		}
+		
+		@PostMapping("/insertar-libro")
+		public String insertarLibro(@RequestParam String titulo, @RequestParam String descripcion, @RequestParam String resenia) throws SQLException {
+			Connection connection;
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+			
+			PreparedStatement consulta = 
+					connection.prepareStatement("INSERT INTO libros(titulo, descripcion, resenia) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
+			consulta.setString(1, titulo);
+			consulta.setString(2, descripcion);
+			consulta.setString(3, resenia);
+			
+			int affected = consulta.executeUpdate();
+			
+			if(affected == 1) {
+				ResultSet gk = consulta.getGeneratedKeys();
+				
+				
+				if (gk.next()) {
+					System.out.println(gk.getInt(1));
+				}
+			} else {
+				System.out.println( " hola");
+			}
+			
+			connection.close();
+			return "redirect:/libros";
+		}
+	
 	
 
 }
