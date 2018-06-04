@@ -51,8 +51,7 @@ public class PimientoController {
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) throws SQLException {
-		UsuariosHelper helper=new UsuariosHelper();
-		helper.cerrarSesion(session);
+		UsuariosHelper.cerrarSesion(session);
 		return "redirect:/admin";
 	}
 	
