@@ -57,7 +57,7 @@ public class PimientoController {
 	
 		@GetMapping("/")
 		public String main() {
-			return "main";
+			return "/fragments/main";
 		}
 		
 		@GetMapping("/libros")
@@ -66,7 +66,7 @@ public class PimientoController {
 			Usuario logueado = UsuariosHelper.usuarioLogueado(session);
 			
 			if (logueado != null) {
-				return "redirect:/agregarLibros";
+				return "redirect:agregarLibros";
 			}
 			
 			Connection connection;
@@ -146,7 +146,7 @@ public class PimientoController {
 			
 			template.addAttribute("listadoLibros", listadoLibros);
 			
-			return "agregarLibros";
+			return "/fragments/agregarLibros";
 		}
 		
 		@GetMapping("/procesarLibros")

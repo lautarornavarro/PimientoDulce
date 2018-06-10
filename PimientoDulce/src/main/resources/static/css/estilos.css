@@ -21,18 +21,20 @@ form input{
 }
 
 .card-img{
-	width:150px;
+	width:100%;
 }
 
-h1{
-	font-size: 80px;
-	padding:50px;
-	text-align:center;
-	margin:auto;
+#pimiento-dulce{
+	padding: 50px;
+	text-align: center;
+	margin: auto;
+}
+
+#pimiento-dulce h1{
+	font-size: 100px;
 }
 
 #cuerpo{
-	height:200px;
 	background-color:#c0c0c0;
 	padding:15px;
 }
