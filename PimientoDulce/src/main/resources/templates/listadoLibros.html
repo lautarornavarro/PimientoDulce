@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html layout:decorator="main">
 	<head>
 		<title>Libros</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
@@ -11,21 +11,23 @@
 	</head>
 
 	<body>
-        <div class="col-md-6 mb-4">
-        	<div class="card h-100" th:each="libro:${listadoLibros}">
-                <div class="card-body">
-                  <a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
-                  <div class="row">
-                  	<a href="#" class="col-md-3"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
-                  	<div class="col-md-9">
-                  		<h5>Descripción</h5>
-                  		<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  		<h5>Reseña</h5>
-                  		<p class="card-text" th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  	</div>
-                  </div>
-                </div>
-            </div>
+		<div id="cuerpo" layout:fragment="contenido">
+        	<div class="col-md-6 mb-4">
+        		<div class="card h-100" th:each="libro:${listadoLibros}">
+                	<div class="card-body">
+                  		<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
+                  		<div class="row">
+                  			<a href="#" class="col-md-3"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                  			<div class="col-md-9">
+                  				<h5>Descripción</h5>
+                  				<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                  				<h5>Reseña</h5>
+                  				<p class="card-text" th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                  			</div>
+                  		</div>
+                	</div>
+            	</div>
+        	</div>
         </div>
 	</body>
 </html>
