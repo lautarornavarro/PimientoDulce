@@ -146,7 +146,7 @@ public class PimientoController {
 			
 			template.addAttribute("listadoLibros", listadoLibros);
 			
-			return "/fragments/agregarLibros";
+			return "fragments/agregarLibros";
 		}
 		
 		@GetMapping("/procesarLibros")
