@@ -57,7 +57,7 @@ public class PimientoController {
 	
 		@GetMapping("/")
 		public String main() {
-			return "/fragments/main";
+			return "fragments/main";
 		}
 		
 		@GetMapping("/libros")
