@@ -121,7 +121,13 @@ public class PimientoController {
 		}
 		
 		@GetMapping("/agregarLibros")
-		public String libros(Model template) throws SQLException {
+		public String agregarLibros(HttpSession session, Model template) throws SQLException {
+			
+			Usuario logueado = UsuariosHelper.usuarioLogueado(session);
+			
+			if (logueado == null) {
+				return "redirect:libros";
+			}
 			
 			
 			Connection connection;

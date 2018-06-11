@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html layout:decorator="fragments/main">
 	<head>
 		<title>Detalle Libro</title>
 		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
@@ -7,21 +7,23 @@
 	</head>
 
 	<body>
-		<div class="col-md-6 mb-4">
-        	<div class="card h-100">
-                <div class="card-body">
-                  <a class="card-title" th:text="${titulo}">Libro</a>
-                  <div class="row">
-                  	<a href="#" class="col-md-3"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
-                  	<div class="col-md-9">
-                  		<h5>Descripción</h5>
-                  		<p class="card-text" th:text="${descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  		<h5>Reseña</h5>
-                  		<p class="card-text" th:text="${resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  	</div>
-                  </div>
-                </div>
-            </div>
+		<div id="cuerpo" layout:fragment="contenido">
+			<div class="col-md-6 mb-4">
+        		<div class="card h-100">
+                	<div class="card-body">
+                  		<a class="card-title" th:text="${titulo}">Libro</a>
+                  		<div class="row">
+                  			<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                  			<div class="col-md-8">
+                  				<h5>Descripción</h5>
+                  				<p class="card-text" th:text="${descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                  				<h5>Reseña</h5>
+                  				<p class="card-text" th:text="${resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                  			</div>
+                  		</div>
+                	</div>
+            	</div>
+        	</div>
         </div>
 	</body>
 
