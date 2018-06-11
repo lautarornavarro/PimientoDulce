@@ -73,7 +73,7 @@ public class PimientoController {
 			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
 			PreparedStatement consulta = 
-					connection.prepareStatement("SELECT * FROM libros;");
+					connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC;");
 			
 			ResultSet resultado = consulta.executeQuery();
 			
@@ -88,6 +88,7 @@ public class PimientoController {
 				Libro x = new Libro(id, titulo, descripcion, resenia);
 				listadoLibros.add(x);
 			}
+			System.out.print(listadoLibros);
 			
 			template.addAttribute("listadoLibros", listadoLibros);
 			
@@ -120,6 +121,37 @@ public class PimientoController {
 			return "libro";
 		}
 		
+		@GetMapping("/libros/pagina/{numeroPagina}")
+		public String numeroPagina(Model template, @PathVariable String numeroPagina) throws SQLException {
+			
+			Connection connection;
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+			
+			PreparedStatement consulta = 
+					connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC LIMIT ? offset ?;");
+			
+			consulta.setString(1, numeroPagina);
+			
+			
+			ResultSet resultado = consulta.executeQuery();
+			
+			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
+			
+			while ( resultado.next() ) {
+				int id = resultado.getInt("id");
+				String titulo = resultado.getString("titulo");
+				String descripcion = resultado.getString("descripcion");
+				String resenia = resultado.getString("resenia");
+				
+				Libro x = new Libro(id, titulo, descripcion, resenia);
+				listadoLibros.add(x);
+			}
+			
+			template.addAttribute("listadoLibros", listadoLibros);
+			
+			return "listadoLibros";
+		}
+		
 		@GetMapping("/agregarLibros")
 		public String agregarLibros(HttpSession session, Model template) throws SQLException {
 			
@@ -134,7 +166,7 @@ public class PimientoController {
 			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
 			PreparedStatement consulta = 
-					connection.prepareStatement("SELECT * FROM libros;");
+					connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC;");
 			
 			ResultSet resultado = consulta.executeQuery();
 			
