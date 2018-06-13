@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,10 +21,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.model.Libro;
+import com.example.model.Pager;
 import com.example.model.Usuario;
 
 @Controller
 public class PimientoController {
+	
+	private static final int BUTTONS_TO_SHOW = 5;
+    
+  
 	
 	@Autowired
 	private Environment env;
@@ -55,227 +61,224 @@ public class PimientoController {
 		return "redirect:/admin";
 	}
 	
-		@GetMapping("/")
-		public String main() {
-			return "fragments/main";
-		}
+	@GetMapping("/")
+	public String main() {
+		return "fragments/main";
+	}
 		
-		@GetMapping("/libros")
-		public String libros(HttpSession session, Model template) throws SQLException {
+	@GetMapping("/libros")
+	public String libros(HttpSession session, Model template) throws SQLException {
 			
-			Usuario logueado = UsuariosHelper.usuarioLogueado(session);
+		Usuario logueado = UsuariosHelper.usuarioLogueado(session);
 			
-			if (logueado != null) {
-				return "redirect:agregarLibros";
-			}
+		if (logueado != null) {
+			return "redirect:agregarLibros";
+		}
 			
-			Connection connection;
-			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
-			PreparedStatement consulta = 
-					connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC;");
+		PreparedStatement consulta = 
+				connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC;");
 			
-			ResultSet resultado = consulta.executeQuery();
+		ResultSet resultado = consulta.executeQuery();
 			
-			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
+		ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 			
-			while ( resultado.next() ) {
-				int id = resultado.getInt("id");
-				String titulo = resultado.getString("titulo");
-				String descripcion = resultado.getString("descripcion");
-				String resenia = resultado.getString("resenia");
+		while ( resultado.next() ) {
+			int id = resultado.getInt("id");
+			String titulo = resultado.getString("titulo");
+			String descripcion = resultado.getString("descripcion");
+			String resenia = resultado.getString("resenia");
 				
-				Libro x = new Libro(id, titulo, descripcion, resenia);
-				listadoLibros.add(x);
-			}
-			System.out.print(listadoLibros);
-			
-			template.addAttribute("listadoLibros", listadoLibros);
-			
-			return "listadoLibros";
+			Libro x = new Libro(titulo, descripcion, resenia);
+			listadoLibros.add(x);
 		}
+		System.out.print(listadoLibros);
+			
+		template.addAttribute("listadoLibros", listadoLibros);
+			
+		return "listadoLibros";
+	}
 		
-		@GetMapping("/libros/{titulo}")
-		public String detalle(Model template, @PathVariable String titulo) throws SQLException {
+	@GetMapping("/libros/{titulo}")
+	public String detalle(Model template, @PathVariable String titulo) throws SQLException {
 			
-			Connection connection;
-			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
-			PreparedStatement consulta = 
-					connection.prepareStatement("SELECT * FROM libros WHERE titulo = ?;");
+		PreparedStatement consulta = 
+				connection.prepareStatement("SELECT * FROM libros WHERE titulo = ?;");
 			
-			consulta.setString(1, titulo);
+		consulta.setString(1, titulo);
 
-			ResultSet resultado = consulta.executeQuery();
+		ResultSet resultado = consulta.executeQuery();
 			
-			if ( resultado.next() ) {
-				String libro = resultado.getString("titulo");
-				String descripcion = resultado.getString("descripcion");
-				String resenia = resultado.getString("resenia");
+		if ( resultado.next() ) {
+			String libro = resultado.getString("titulo");
+			String descripcion = resultado.getString("descripcion");
+			String resenia = resultado.getString("resenia");
 				
-				template.addAttribute("titulo", libro);
-				template.addAttribute("descripcion", descripcion);
-				template.addAttribute("resenia", resenia);
-			}
+			template.addAttribute("titulo", libro);
+			template.addAttribute("descripcion", descripcion);
+			template.addAttribute("resenia", resenia);
+		}
 			
-			return "libro";
+		return "libro";
+	}
+		
+	@GetMapping("/libros/pagina/{numeroPagina}")
+	public String numeroPagina(HttpSession session, Model template, @PathVariable int numeroPagina, @RequestParam("pagina") Optional<Integer> pagina) throws SQLException {
+		
+		Usuario logueado = UsuariosHelper.usuarioLogueado(session);
+		
+		if (logueado != null) {
+			int logued = 1;
+			
+			template.addAttribute("logued", logued);
 		}
 		
-		@GetMapping("/libros/pagina/{numeroPagina}")
-		public String numeroPagina(Model template, @PathVariable String numeroPagina) throws SQLException {
-			
-			Connection connection;
-			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
-			
-			PreparedStatement consulta = 
-					connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC LIMIT ? offset ?;");
-			
-			consulta.setString(1, numeroPagina);
-			
-			
-			ResultSet resultado = consulta.executeQuery();
-			
-			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
-			
-			while ( resultado.next() ) {
-				int id = resultado.getInt("id");
-				String titulo = resultado.getString("titulo");
-				String descripcion = resultado.getString("descripcion");
-				String resenia = resultado.getString("resenia");
-				
-				Libro x = new Libro(id, titulo, descripcion, resenia);
-				listadoLibros.add(x);
-			}
-			
-			template.addAttribute("listadoLibros", listadoLibros);
-			
-			return "listadoLibros";
+		if (numeroPagina == 0) {
+			return "redirect:/libros/pagina/1";
 		}
 		
-		@GetMapping("/agregarLibros")
-		public String agregarLibros(HttpSession session, Model template) throws SQLException {
 			
-			Usuario logueado = UsuariosHelper.usuarioLogueado(session);
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+		
+		PreparedStatement consulta = 
+				connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC LIMIT 5 offset ?;");
 			
-			if (logueado == null) {
-				return "redirect:libros";
-			}
+		consulta.setInt(1, (numeroPagina-1)*5);
 			
 			
-			Connection connection;
-			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+		ResultSet resultado = consulta.executeQuery();
 			
-			PreparedStatement consulta = 
-					connection.prepareStatement("SELECT * FROM libros ORDER BY id DESC;");
+		ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 			
-			ResultSet resultado = consulta.executeQuery();
-			
-			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
-			
-			while ( resultado.next() ) {
-				int id = resultado.getInt("id");
-				String titulo = resultado.getString("titulo");
-				String descripcion = resultado.getString("descripcion");
-				String resenia = resultado.getString("resenia");
+		while ( resultado.next() ) {
+			int id = resultado.getInt("id");
+			String titulo = resultado.getString("titulo");
+			String descripcion = resultado.getString("descripcion");
+			String resenia = resultado.getString("resenia");
 				
-				Libro x = new Libro(id, titulo, descripcion, resenia);
-				listadoLibros.add(x);
-			}
-			
-			template.addAttribute("listadoLibros", listadoLibros);
-			
-			return "fragments/agregarLibros";
+			Libro x = new Libro(titulo, descripcion, resenia);
+			listadoLibros.add(x);
 		}
 		
-		@GetMapping("/procesarLibros")
-		public String procesarLibros(Model template, @RequestParam String palabraBuscada) throws SQLException {
+		consulta = connection.prepareStatement("SELECT COUNT (*) AS totalLibros FROM libros;");		
+
+		ResultSet resultado1 = consulta.executeQuery();
+		
+		if (resultado1.next()) {
+			int totalLibros = resultado1.getInt("totalLibros");
 			
-			Connection connection;
-			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
-			
-			PreparedStatement consulta = 
-					connection.prepareStatement("SELECT * FROM libros WHERE nombre LIKE ?;");
-			consulta.setString(1, "%" + palabraBuscada +  "%");
-			
-			ResultSet resultado = consulta.executeQuery();
-			
-			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
-			
-			while ( resultado.next() ) {
-				int id = resultado.getInt("id");
-				String titulo = resultado.getString("titulo");
-				String descripcion = resultado.getString("descripcion");
-				String resenia = resultado.getString("resenia");
-				
-				Libro x = new Libro(id, titulo, descripcion, resenia);
-				listadoLibros.add(x);
-			}
-			
-			template.addAttribute("listadoLibros", listadoLibros);
-			
-			return "listadoUsuarios";
+			template.addAttribute("totalLibros", totalLibros);
 		}
 		
-		@GetMapping("/registrarse")
-		public String registrarse() {
-			return "registrarse";
+		if (numeroPagina > resultado1.getInt("totalLibros")/5+1) {
+			return "redirect:/libros/pagina/" + (resultado1.getInt("totalLibros")/5+1);
 		}
 		
-		@PostMapping("/insertar-usuario")
-		public String insertarUsuario(@RequestParam String nombre, @RequestParam String password, @RequestParam String email) throws SQLException {
-			Connection connection;
-			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+		 Pager pager = new Pager(resultado1.getInt("totalLibros")/5+1, numeroPagina, BUTTONS_TO_SHOW);
 			
-			PreparedStatement consulta = 
-					connection.prepareStatement("INSERT INTO usuarios(nombre, contrasenia, email) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
-			consulta.setString(1, nombre);
-			consulta.setString(2, password);
-			consulta.setString(3, email);
+		template.addAttribute("listadoLibros", listadoLibros);
+        template.addAttribute("pager", pager);
 			
-			int affected = consulta.executeUpdate();
-			
-			if(affected == 1) {
-				ResultSet gk = consulta.getGeneratedKeys();
-				
-				
-				if (gk.next()) {
-					System.out.println(gk.getInt(1));
-				}
-			} else {
-				System.out.println( " hola");
-			}
-			
-			connection.close();
-			return "redirect:/registrarse";
-		}
+		return "listadoLibros";
+	}
 		
-		@PostMapping("/insertar-libro")
-		public String insertarLibro(@RequestParam String titulo, @RequestParam String descripcion, @RequestParam String resenia) throws SQLException {
-			Connection connection;
-			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+	
+		
+	@GetMapping("/procesarLibros")
+	public String procesarLibros(Model template, @RequestParam String palabraBuscada) throws SQLException {
 			
-			PreparedStatement consulta = 
-					connection.prepareStatement("INSERT INTO libros(titulo, descripcion, resenia) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
-			consulta.setString(1, titulo);
-			consulta.setString(2, descripcion);
-			consulta.setString(3, resenia);
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
-			int affected = consulta.executeUpdate();
+		PreparedStatement consulta = 
+				connection.prepareStatement("SELECT * FROM libros WHERE nombre LIKE ?;");
+		consulta.setString(1, "%" + palabraBuscada +  "%");
 			
-			if(affected == 1) {
-				ResultSet gk = consulta.getGeneratedKeys();
+		ResultSet resultado = consulta.executeQuery();
+			
+		ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
+			
+		while ( resultado.next() ) {
+			int id = resultado.getInt("id");
+			String titulo = resultado.getString("titulo");
+			String descripcion = resultado.getString("descripcion");
+			String resenia = resultado.getString("resenia");
 				
-				
-				if (gk.next()) {
-					System.out.println(gk.getInt(1));
-				}
-			} else {
-				System.out.println( " hola");
-			}
-			
-			connection.close();
-			return "redirect:/libros";
+			Libro x = new Libro(titulo, descripcion, resenia);
+			listadoLibros.add(x);
 		}
+			
+		template.addAttribute("listadoLibros", listadoLibros);
+			
+		return "listadoUsuarios";
+	}
+		
+	@GetMapping("/registrarse")
+	public String registrarse() {
+		return "registrarse";
+	}
+		
+	@PostMapping("/insertar-usuario")
+	public String insertarUsuario(@RequestParam String nombre, @RequestParam String password, @RequestParam String email) throws SQLException {
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+			
+		PreparedStatement consulta = 
+				connection.prepareStatement("INSERT INTO usuarios(nombre, contrasenia, email) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
+		consulta.setString(1, nombre);
+		consulta.setString(2, password);
+		consulta.setString(3, email);
+			
+		int affected = consulta.executeUpdate();
+			
+		if(affected == 1) {
+			ResultSet gk = consulta.getGeneratedKeys();
+				
+				
+			if (gk.next()) {
+				System.out.println(gk.getInt(1));
+			}
+		} else {
+			System.out.println( " hola");
+		}
+			
+		connection.close();
+		return "redirect:/registrarse";
+	}
+		
+	@PostMapping("/insertar-libro")
+	public String insertarLibro(@RequestParam String titulo, @RequestParam String descripcion, @RequestParam String resenia) throws SQLException {
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+			
+		PreparedStatement consulta = 
+				connection.prepareStatement("INSERT INTO libros(titulo, descripcion, resenia) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
+		consulta.setString(1, titulo);
+		consulta.setString(2, descripcion);
+		consulta.setString(3, resenia);
+			
+		int affected = consulta.executeUpdate();
+			
+		if(affected == 1) {
+			ResultSet gk = consulta.getGeneratedKeys();
+				
+				
+			if (gk.next()) {
+				System.out.println(gk.getInt(1));
+			}
+		} else {
+			System.out.println( " hola");
+		}
+			
+		connection.close();
+		return "redirect:/libros/pagina/1";
+	}
 	
 	
 

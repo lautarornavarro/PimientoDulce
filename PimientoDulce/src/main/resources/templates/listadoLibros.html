@@ -1,5 +1,5 @@
 <!doctype html>
-<html layout:decorator="fragments/main">
+<html layout:decorator="fragments/main" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Libros</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
@@ -12,8 +12,23 @@
 
 	<body>
 		<div id="cuerpo" layout:fragment="contenido">
-			<div id="agregar-libros" layout:fragment="agregar-libros">
-			</div>
+			<div class="col-md-6 mb-4" id="agregar-libros" th:if="${logued == 1}" >
+        		<div class="card h-100">
+                	<form class="card-body" action="/insertar-libro" method="POST">
+                	  <input class="card-title" placeholder="agregar título" type="text" name="titulo" href="#"></input>
+                	  <div class="row">
+                	  	<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                	  	<div class="col-md-8">
+                  			<h5>Descripción</h5>
+                  			<input placeholder="agregar descripción" type="text" name="descripcion" class="card-text"></input>
+                  			<h5>Reseña</h5>
+                  			<input placeholder="agregar reseña" type="text" name="resenia" class="card-text"></input>
+                  			<input type="submit" value="Agregar libro"></input>
+                  		</div>
+                  	  </div>
+                	</form>
+            	</div>
+        	</div>
         	<div class="col-md-6 mb-4">
         		<div class="card h-100" th:each="libro:${listadoLibros}">
                 	<div class="card-body">
@@ -32,17 +47,27 @@
         	</div>
         	<nav aria-label="Page navigation example">
   				<ul class="pagination">
-    				<li class="page-item">
-      					<a class="page-link" href="#" aria-label="Previous">
+  					<li th:class="${numeroPagina == 1} ? disabled">
+      					<a class="page-link" th:href="'/libros/pagina/1'" aria-label="Previous">
         					<span aria-hidden="true">&laquo;</span>
        						<span class="sr-only">Previous</span>
      					</a>
     				</li>
-    				<li class="page-item"><a class="page-link" href="#">1</a></li>
-    				<li class="page-item"><a class="page-link" href="#">2</a></li>
-    				<li class="page-item"><a class="page-link" href="#">3</a></li>
-   					<li class="page-item">
-      					<a class="page-link" href="#" aria-label="Next">
+    				<li th:class="${numeroPagina == 1} ? disabled">
+      					<a class="page-link" th:href="${numeroPagina-1}" aria-label="Previous">
+        					<span aria-hidden="true">&larr;</span>
+       						<span class="sr-only">Previous</span>
+     					</a>
+    				</li>
+    				<li th:each="pagina :${#numbers.sequence(pager.startPage, pager.endPage)}" class="page-item"><a class="page-link" th:text="${pagina}" th:href="'/libros/pagina/' + ${pagina}">1</a></li>
+   					<li th:class="${numeroPagina == totalLibros/5+1} ? disabled">
+      					<a class="page-link" th:href="${numeroPagina+1}" aria-label="Next">
+        					<span aria-hidden="true">&rarr;</span>
+        					<span class="sr-only">Next</span>
+      					</a>
+    				</li>
+    				<li th:class="${numeroPagina == totalLibros/5+1} ? disabled">
+      					<a class="page-link" th:href="'/libros/pagina/' + ${totalLibros/5+1} " aria-label="Next">
         					<span aria-hidden="true">&raquo;</span>
         					<span class="sr-only">Next</span>
       					</a>

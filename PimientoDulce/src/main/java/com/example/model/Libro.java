@@ -6,16 +6,28 @@ public class Libro {
 	private String descripcion;
 	private String resenia;
 	
-	public Libro(int id, String titulo, String descripcion, String resenia) {
-		this.id = id;
+	
+	
+	public Libro(String titulo, String descripcion, String resenia) {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.resenia = resenia;
 	}
 
+
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return "Libro [id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", resenia=" + resenia + "]";
+	}
+
+
+	public Libro() {
+	}
+
 
 	public void setId(int id) {
 		this.id = id;
