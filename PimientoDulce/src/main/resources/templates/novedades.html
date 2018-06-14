@@ -16,7 +16,7 @@
 			<div class="col-md-6 mb-4">
         		<div class="card h-100" th:each="nota:${listadoNotas}">
                 	<div class="card-body">
-                  		<a class="card-title"  th:text="${nota.titulo}">Nota</a>
+                  		<a class="card-title" th:href="'/notas/' + ${nota.titulo}" th:text="${nota.titulo}">Nota</a>
                   		<div class="row">
                   			<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
                   			<div class="col-md-8">
