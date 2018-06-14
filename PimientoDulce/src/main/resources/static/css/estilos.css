@@ -12,6 +12,9 @@
 	text-align: center;
 }
 
+h1{
+	text-size: 200px;
+}
 
 form input{
 	width:90%;
@@ -27,6 +30,10 @@ form input{
 
 .card-img{
 	width:100%;
+}
+
+.card-body{
+	width: 400px;
 }
 
 #pimiento-dulce{
@@ -54,3 +61,4 @@ form input{
 	margin:5px;
 	text-align:center;
 }
+
