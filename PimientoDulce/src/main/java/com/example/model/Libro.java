@@ -1,7 +1,16 @@
 package com.example.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Libro {
-	private int id;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private String titulo;
 	private String descripcion;
 	private String resenia;
@@ -15,47 +24,60 @@ public class Libro {
 	}
 
 
-	public int getId() {
+
+	public long getId() {
 		return id;
 	}
+
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+
+	public String getResenia() {
+		return resenia;
+	}
+
+
+
+	public void setResenia(String resenia) {
+		this.resenia = resenia;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "Libro [id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", resenia=" + resenia + "]";
 	}
 
-
-	public Libro() {
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public String getResenia() {
-		return resenia;
-	}
-
-	public void setResenia(String resenia) {
-		this.resenia = resenia;
-	}
 
 	
 	

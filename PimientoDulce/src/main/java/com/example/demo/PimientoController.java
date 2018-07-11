@@ -29,6 +29,7 @@ import com.example.model.Usuario;
 public class PimientoController {
 	
 	private static final int BUTTONS_TO_SHOW = 5;
+	private static final int INITIAL_PAGE = 0;
     
   
 	

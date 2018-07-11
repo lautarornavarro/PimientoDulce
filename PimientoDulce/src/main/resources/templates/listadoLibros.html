@@ -9,11 +9,13 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		
+		<script src="/js/pagination.js"></script>
 	
 		
 	</head>
 
 	<body>
+	
 		<div id="cuerpo" layout:fragment="contenido">
 			<div class="col-md-6 mb-4" id="agregar-libros" th:if="${logged == 1}" >
         		<div class="card h-100">
@@ -39,7 +41,7 @@
                 	</form>
             	</div>
         	</div>
-        	<div class="col-md-6 mb-4">
+        	<div class="col-md-6 mb-4" id="pagina">
         		<div class="card h-100" th:each="libro:${listadoLibros}">
                 	<div class="card-body">
                   		<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
@@ -57,7 +59,7 @@
                 	</div>
             	</div>
         	</div>
-        	<nav aria-label="Page navigation example">
+        	<!-- <nav aria-label="Page navigation example">
   				<ul class="pagination">
   					<li th:class="${numeroPagina == 1} ? disabled">
       					<a class="page-link" th:href="'/libros/pagina/1'" aria-label="Previous">
@@ -85,7 +87,17 @@
       					</a>
     				</li>
   				</ul>
-			</nav>
+			</nav> -->
+			
+			<nav aria-label="Page navigation example">
+      			<ul class="pagination">
+        			<li class="page-item" id="previous-page">
+        				<a class="page-link" href="javascript:void(0)" aria-label="Previous">
+        					<span aria-hidden="true">&laquo;</span>
+        				</a>
+        			</li>
+      			</ul>
+    		</nav>
         </div>
 	</body>
 </html>

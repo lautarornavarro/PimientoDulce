@@ -13,6 +13,8 @@
 	<body>
 	
 		<div id="cuerpo" layout:fragment="contenido">
+		<div class="row">
+			<div class="col-md-3 mb-2"></div>
 			<div class="col-md-6 mb-4">
         		<div class="card h-100" th:each="nota:${listadoNotas}">
                 	<div class="card-body">
@@ -27,71 +29,60 @@
                 	</div>
             	</div>
         	</div>
+        	<div class="col-md-3 mb-2"></div>
+        </div>
 
-        	
         	<div class="carousel-project-1">
-          		<h4>PROJECT <span>#1</span></h4>
+          		<h4>Adiciones recientes</h4>
           		<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   					<div class="carousel-inner">
     					<div class="carousel-item active">
-      						<div class="col-md-6 mb-4">
-        		<div class="card h-100" th:each="libro:${listadoLibros2}">
-                	<div class="card-body">
-                  		<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
-                  		<div class="row">
-                  			<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
-                  			<div class="col-md-8">
-                  				
-                  				<h5>Descripción</h5>
-                  				<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  				<h5>Reseña</h5>
-                  				<p class="card-text " th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  				
-                  			</div>
-                  		</div>
-                	</div>
-            	</div>
-        	</div>
-   						</div>
-    					<div class="carousel-item">
-      						<div class="col-md-6 mb-4">
-        		<div class="card h-100" th:each="libro:${listadoLibros3}">
-                	<div class="card-body">
-                  		<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
-                  		<div class="row">
-                  			<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
-                  			<div class="col-md-8">
-                  				
-                  				<h5>Descripción</h5>
-                  				<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  				<h5>Reseña</h5>
-                  				<p class="card-text " th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  				
-                  			</div>
-                  		</div>
-                	</div>
-            	</div>
-        	</div>
+        						<div class="card h-100 cardnov" th:each="libro:${listadoLibros2}">
+                					<div class="card-body">
+                  						<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
+                  						<div class="row">
+                  							<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                  							<div class="col-md-8">
+                  								<h5>Descripción</h5>
+                  								<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                  								<h5>Reseña</h5>
+                  								<p class="card-text " th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>                				
+                  							</div>
+                  						</div>
+                					</div>
+        					</div>
     					</div>
     					<div class="carousel-item">
-      						<div class="col-md-6 mb-4">
-        		<div class="card h-100" th:each="libro:${listadoLibros4}">
-                	<div class="card-body">
-                  		<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
-                  		<div class="row">
-                  			<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
-                  			<div class="col-md-8">
-                  				
-                  				<h5>Descripción</h5>
-                  				<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  				<h5>Reseña</h5>
-                  				<p class="card-text " th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                  				
-                  			</div>
-                  		</div>
-                	</div>
-            	</div>
-        	</div>
+        						<div class="card h-100 cardnov" th:each="libro:${listadoLibros3}">
+                					<div class="card-body">
+                  						<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
+                  						<div class="row">
+                  							<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                  							<div class="col-md-8">
+                  								<h5>Descripción</h5>
+                  								<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                  								<h5>Reseña</h5>
+                  								<p class="card-text " th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>                				
+                  							</div>
+                  						</div>
+                					</div>
+        					</div>
+    					</div>
+    					<div class="carousel-item">
+        						<div class="card h-100 cardnov" th:each="libro:${listadoLibros4}">
+                					<div class="card-body">
+                  						<a class="card-title" th:href="'/libros/' + ${libro.titulo}" th:text="${libro.titulo}">Libro</a>
+                  						<div class="row">
+                  							<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                  							<div class="col-md-8">       				
+                  								<h5>Descripción</h5>
+                  								<p class="card-text" th:text="${libro.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                  								<h5>Reseña</h5>
+                  								<p class="card-text " th:text="${libro.resenia}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>			
+                  							</div>
+                  						</div>
+                					</div>
+            					</div>
     					</div>
   					</div>
   					<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

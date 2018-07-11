@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Pimiento Dulce</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
 	
 		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:600" rel="stylesheet"></link>
 		
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -12,31 +13,32 @@
 	</head>
 
 	<body>		
-		<div class="container">
 		
-			<div id="header" class="row">
-				<a href="/" id="pimiento-dulce"><h1>Pimiento Dulce</h1></a>
+		<div id="header" class="row">
+			<a href="/" ><img id="pimiento-dulce" src="/images/Pimiento.png"></img>
+			<h1>PIMIENTO DULCE</h1></a>
 				
-			</div>
+		</div>
 			
-			<div id="navbar" class="row">
-				<div class="col-md-4">
-					<a href="/libros/pagina/1">Libros</a>
-				</div>
-				<div class="col-md-4">
-					<a href="/notas/pagina/1">Notas</a>
-				</div>
-				<div class="col-md-4">
-					<a href="#">Cursos</a>
-				</div>
+		<div id="navbar" class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-3">
+				<a href="/libros/pagina/1">Libros</a>
 			</div>
-			
+			<div class="col-md-2">
+				<a href="/notas/pagina/1">Notas</a>
+			</div>
+			<div class="col-md-3">
+				<a href="#">Cursos</a>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+		<div class="container">
 			<div id="cuerpo" layout:fragment="contenido">
 				
 			</div>
-			
-			
-			<div id="footer" class="row">
+		</div>
+		<div id="footer" class="row">
 				<div class="col-md-4">
 					<p>Contacto</p>
 				</div>
@@ -47,9 +49,6 @@
 					
 				</div>
 			</div>
-		
-		
-		</div>
 	</body>
 
 </html>

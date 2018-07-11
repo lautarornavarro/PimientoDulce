@@ -1,8 +1,21 @@
 
-#header{
-	background-color:#c0c0c0;
+body{
+	background-color:#e9946e;
 }
 
+#header{
+	background-color:#e0cdb7;
+	width:100%;
+	margin:auto;
+}
+
+#header a{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	margin-bottom: 15px;
+	text-decoration: none;
+}
 .registro{
 	width:450px;
 	margin:auto;
@@ -12,8 +25,22 @@
 	text-align: center;
 }
 
-h1{
-	text-size: 200px;
+
+#pimiento-dulce{
+	text-align: center;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 23%;
+}
+
+#header h1{
+	font-family: Montserrat;
+	text-align: center;
+	font-size: 60px;
+	letter-spacing: 10px;
+	margin:15px;
+	color: #524338;
 }
 
 form input{
@@ -36,29 +63,38 @@ form input{
 	width: 400px;
 }
 
-#pimiento-dulce{
-	padding: 50px;
+.carousel-project-1 h4{
 	text-align: center;
-	margin: auto;
 }
+
+
+.cardnov{
+	margin: auto;
+	width: 49%;
+}
+
 
 #pimiento-dulce h1{
 	font-size: 100px;
 }
 
 #cuerpo{
-	background-color:#c0c0c0;
+	background-color:#e9946e;
 	padding:15px;
 }
 
 
 #footer{
-	background-color:grey;
+	background-color:#3f2117;
 	padding:15px;
 }
 
 #navbar{
-	margin:5px;
 	text-align:center;
+	line-height: 50px;
+	height: 50px;
+	width: 100%;
+	margin:auto;
+	background-color: #3f2117;
 }
 
