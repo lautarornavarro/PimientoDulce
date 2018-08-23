@@ -8,6 +8,15 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.compatibility.min.js.map"></script>
+		
+		<script src="/js/cloudinary.js"></script>
+
+		<script src="//widget.cloudinary.com/global/all.js"
+				type="text/javascript"></script>
+		<script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>	
+	
 	</head>
 
 	<body>
@@ -16,8 +25,15 @@
         		<div class="card h-100">
                 	<form class="card-body" action="/insertar-nota" method="POST">
                 	  <input class="card-title" placeholder="agregar título" type="text" name="titulo" href="#"></input>
+                	  
                 	  <div class="row">
-                	  	<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                	  
+                	  	<div class="col-md-4 text-center">
+							<div id="previewNota"></div>
+							<input type="button" href="#" id="upload_widget_opener1" value="Agregar una foto" class="btn btn-outline-dark"></input><br></br>
+							<input  id="imagennota" name="imagennota"></input>
+						</div>
+						
                 	  	<div class="col-md-8">
                   			<h5>Texto</h5>
                   			<input placeholder="agregar texto" type="text" name="texto" class="card-text"></input>
@@ -32,7 +48,7 @@
                 	<div class="card-body">
                   		<a class="card-title" th:href="'/notas/' + ${nota.titulo}" th:text="${nota.titulo}">Nota</a>
                   		<div class="row">
-                  			<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" alt=""></img></a>
+                  			<a href="#" class="col-md-4"><img class="card-img" src="http://placehold.it/1300x2000" th:src="${nota.imagennota} ?: 'http://placehold.it/1300x2000'" alt=""></img></a>
                   			<div class="col-md-8">
                   				<h5>Texto</h5>
                   				<p class="card-text" th:text="${nota.texto}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
@@ -43,27 +59,32 @@
         	</div>
         	<nav aria-label="Page navigation example">
   				<ul class="pagination">
-  					<li th:class="${numeroPaginaNotas == 1} ? disabled">
+  					<li th:class="${numeroPaginaNotas == 1} ? 'page-item disabled'">
       					<a class="page-link" th:href="'/notas/pagina/1'" aria-label="Previous">
         					<span aria-hidden="true">&laquo;</span>
        						<span class="sr-only">Previous</span>
      					</a>
     				</li>
-    				<li th:class="${numeroPaginaNotas == 1} ? disabled">
+    				<li th:class="${numeroPaginaNotas == 1} ? 'page-item disabled'">
       					<a class="page-link" th:href="${numeroPaginaNotas-1}" aria-label="Previous">
         					<span aria-hidden="true">&larr;</span>
        						<span class="sr-only">Previous</span>
      					</a>
     				</li>
-    				<li th:each="pagina :${#numbers.sequence(pager.startPage, pager.endPage)}" class="page-item"><a class="page-link" th:text="${pagina}" th:href="'/notas/pagina/' + ${pagina}">1</a></li>
-   					<li th:class="${numeroPaginaNotas == totalNotas/5+1} ? disabled">
+    				
+    				<li th:class="${numeroPaginaNotas == pagina} ? 'page-item active pointer-disabled'"
+    					th:each="pagina :${#numbers.sequence(pager.startPage, pager.endPage)}" class="page-item">
+    					<a class="page-link" th:text="${pagina}" th:href="'/notas/pagina/' + ${pagina}">1</a>
+    				</li>
+    				
+   					<li th:class="${numeroPaginaNotas == (totalNotas+2)/3} ? disabled">
       					<a class="page-link" th:href="${numeroPaginaNotas+1}" aria-label="Next">
         					<span aria-hidden="true">&rarr;</span>
         					<span class="sr-only">Next</span>
       					</a>
     				</li>
-    				<li th:class="${numeroPaginaNotas == totalNotas/5+1} ? disabled">
-      					<a class="page-link" th:href="'/notas/pagina/' + ${totalNotas/5+1} " aria-label="Next">
+    				<li th:class="${numeroPaginaNotas == (totalNotas+2)/3} ? disabled">
+      					<a class="page-link" th:href="'/notas/pagina/' + ${totalNotas/3+1} " aria-label="Next">
         					<span aria-hidden="true">&raquo;</span>
         					<span class="sr-only">Next</span>
       					</a>

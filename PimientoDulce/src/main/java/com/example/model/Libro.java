@@ -10,17 +10,38 @@ public class Libro {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private int id;
 	private String titulo;
 	private String descripcion;
 	private String resenia;
+	private String imagen;
 	
 	
 	
-	public Libro(String titulo, String descripcion, String resenia) {
+	public Libro(int id, String titulo, String descripcion, String resenia, String imagen) {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.resenia = resenia;
+		this.imagen = imagen;
+		this.id = id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public String getImagen() {
+		return imagen;
+	}
+
+
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 
@@ -31,9 +52,6 @@ public class Libro {
 
 
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
 
 
@@ -75,7 +93,8 @@ public class Libro {
 
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", resenia=" + resenia + "]";
+		return "Libro [id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", resenia=" + resenia
+				+ ", imagen=" + imagen + "]";
 	}
 
 

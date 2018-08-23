@@ -8,7 +8,7 @@ package com.example.model;
  */
 public class Pager {
 
-    private int buttonsToShow = 5;
+    private int buttonsToShow ;
 
     private int startPage;
 
@@ -40,6 +40,7 @@ public class Pager {
             setStartPage(currentPage - halfPagesToShow);
             setEndPage(currentPage + halfPagesToShow);
         }
+        
 
     }
 
@@ -76,4 +77,5 @@ public class Pager {
         return "Pager [startPage=" + startPage + ", endPage=" + endPage + "]";
     }
 
+    
 }

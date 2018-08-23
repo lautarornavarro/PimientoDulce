@@ -3,6 +3,15 @@ body{
 	background-color:#e9946e;
 }
 
+.borrar{
+	right: 5px;
+	position: absolute;
+}
+
+.pointer-disabled {
+    pointer-events: none;
+}
+
 #header{
 	background-color:#e0cdb7;
 	width:100%;
@@ -87,6 +96,8 @@ form input{
 #footer{
 	background-color:#3f2117;
 	padding:15px;
+	width:100%;
+	margin:auto;
 }
 
 #navbar{

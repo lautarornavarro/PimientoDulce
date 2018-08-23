@@ -81,8 +81,9 @@ public class PimientoController {
 			int id = resultado.getInt("id");
 			String titulo = resultado.getString("titulo");
 			String texto = resultado.getString("texto");
+			String imagennota = resultado.getString("imagennota");
 				
-			Nota x = new Nota(titulo, texto);
+			Nota x = new Nota(titulo, texto, imagennota);
 			listadoNotas.add(x);
 		}
 		
@@ -102,8 +103,9 @@ public class PimientoController {
 			String titulo = resultado2.getString("titulo");
 			String descripcion = resultado2.getString("descripcion");
 			String resenia = resultado2.getString("resenia");
+			String imagen = resultado2.getString("imagen");
 				
-			Libro x = new Libro(titulo, descripcion, resenia);
+			Libro x = new Libro(id, titulo, descripcion, resenia, imagen);
 			listadoLibros2.add(x);
 		}
 		
@@ -122,8 +124,9 @@ public class PimientoController {
 			String titulo = resultado3.getString("titulo");
 			String descripcion = resultado3.getString("descripcion");
 			String resenia = resultado3.getString("resenia");
+			String imagen = resultado3.getString("imagen");
 				
-			Libro x = new Libro(titulo, descripcion, resenia);
+			Libro x = new Libro(id, titulo, descripcion, resenia, imagen);
 			listadoLibros3.add(x);
 		}
 		
@@ -142,8 +145,9 @@ public class PimientoController {
 			String titulo = resultado4.getString("titulo");
 			String descripcion = resultado4.getString("descripcion");
 			String resenia = resultado4.getString("resenia");
+			String imagen = resultado4.getString("imagen");
 				
-			Libro x = new Libro(titulo, descripcion, resenia);
+			Libro x = new Libro(id, titulo, descripcion, resenia, imagen);
 			listadoLibros4.add(x);
 		}
 		
@@ -176,8 +180,9 @@ public class PimientoController {
 			String titulo = resultado.getString("titulo");
 			String descripcion = resultado.getString("descripcion");
 			String resenia = resultado.getString("resenia");
+			String imagen = resultado.getString("imagen");
 				
-			Libro x = new Libro(titulo, descripcion, resenia);
+			Libro x = new Libro(id, titulo, descripcion, resenia, imagen);
 			listadoLibros.add(x);
 		}
 		System.out.print(listadoLibros);
@@ -204,10 +209,12 @@ public class PimientoController {
 			String libro = resultado.getString("titulo");
 			String descripcion = resultado.getString("descripcion");
 			String resenia = resultado.getString("resenia");
+			String imagen = resultado.getString("imagen");
 				
 			template.addAttribute("titulo", libro);
 			template.addAttribute("descripcion", descripcion);
 			template.addAttribute("resenia", resenia);
+			template.addAttribute("imagen", imagen);
 		}
 			
 		return "libro";
@@ -248,8 +255,9 @@ public class PimientoController {
 			String titulo = resultado.getString("titulo");
 			String descripcion = resultado.getString("descripcion");
 			String resenia = resultado.getString("resenia");
+			String imagen = resultado.getString("imagen");
 				
-			Libro x = new Libro(titulo, descripcion, resenia);
+			Libro x = new Libro(id, titulo, descripcion, resenia, imagen);
 			listadoLibros.add(x);
 		}
 		
@@ -263,16 +271,33 @@ public class PimientoController {
 			template.addAttribute("totalLibros", totalLibros);
 		}
 		
-		if (numeroPagina > resultado1.getInt("totalLibros")/5+1) {
-			return "redirect:/libros/pagina/" + (resultado1.getInt("totalLibros")/5+1);
+		if (numeroPagina > (resultado1.getInt("totalLibros")+4)/5) {
+			return "redirect:/libros/pagina/" + ((resultado1.getInt("totalLibros")+4)/5);
 		}
 		
-		 Pager pager = new Pager(resultado1.getInt("totalLibros")/5+1, numeroPagina, BUTTONS_TO_SHOW);
+		 Pager pager = new Pager((resultado1.getInt("totalLibros")+4)/5, numeroPagina, BUTTONS_TO_SHOW);
 			
 		template.addAttribute("listadoLibros", listadoLibros);
         template.addAttribute("pager", pager);
+        
 			
 		return "listadoLibros";
+	}
+	
+	@GetMapping("/eliminar/{id}")
+	public String eliminar(HttpSession session, @PathVariable int id) throws SQLException {
+		
+		Connection connection;
+		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
+		
+		PreparedStatement consulta = connection.prepareStatement("DELETE FROM libros WHERE id = ?;");
+		consulta.setInt(1, id);
+		
+		consulta.executeUpdate();
+		
+		connection.close();
+		
+		return "redirect:/libros/pagina/1";
 	}
 	
 	@GetMapping("/notas/pagina/{numeroPaginaNotas}")
@@ -308,8 +333,9 @@ public class PimientoController {
 			int id = resultado.getInt("id");
 			String titulo = resultado.getString("titulo");
 			String texto = resultado.getString("texto");
+			String imagennota = resultado.getString("imagennota");
 				
-			Nota x = new Nota(titulo, texto);
+			Nota x = new Nota(titulo, texto, imagennota);
 			listadoNotas.add(x);
 		}
 		
@@ -323,11 +349,11 @@ public class PimientoController {
 			template.addAttribute("totalNotas", totalNotas);
 		}
 		
-		if (numeroPaginaNotas > resultado1.getInt("totalNotas")/3+1) {
+		if (numeroPaginaNotas > (resultado1.getInt("totalNotas")+2)/3) {
 			return "redirect:/notas/pagina/" + (resultado1.getInt("totalNotas")/3+1);
 		}
 		
-		 Pager pager = new Pager(resultado1.getInt("totalNotas")/3+1, numeroPaginaNotas, BUTTONS_TO_SHOW);
+		 Pager pager = new Pager((resultado1.getInt("totalNotas")+2)/3, numeroPaginaNotas, BUTTONS_TO_SHOW);
 			
 		template.addAttribute("listadoNotas", listadoNotas);
         template.addAttribute("pager", pager);
@@ -355,8 +381,9 @@ public class PimientoController {
 			String titulo = resultado.getString("titulo");
 			String descripcion = resultado.getString("descripcion");
 			String resenia = resultado.getString("resenia");
+			String imagen = resultado.getString("imagen");
 				
-			Libro x = new Libro(titulo, descripcion, resenia);
+			Libro x = new Libro(id, titulo, descripcion, resenia, imagen);
 			listadoLibros.add(x);
 		}
 			
@@ -399,15 +426,16 @@ public class PimientoController {
 	}
 		
 	@PostMapping("/insertar-libro")
-	public String insertarLibro(@RequestParam String titulo, @RequestParam String descripcion, @RequestParam String resenia) throws SQLException {
+	public String insertarLibro(@RequestParam String titulo, @RequestParam String descripcion, @RequestParam String resenia, @RequestParam String imagen) throws SQLException {
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
 		PreparedStatement consulta = 
-				connection.prepareStatement("INSERT INTO libros(titulo, descripcion, resenia) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
+				connection.prepareStatement("INSERT INTO libros(titulo, descripcion, resenia, imagen) VALUES(?, ?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
 		consulta.setString(1, titulo);
 		consulta.setString(2, descripcion);
 		consulta.setString(3, resenia);
+		consulta.setString(4, imagen);
 			
 		int affected = consulta.executeUpdate();
 			
@@ -427,14 +455,15 @@ public class PimientoController {
 	}
 	
 	@PostMapping("/insertar-nota")
-	public String insertarNota(@RequestParam String titulo, @RequestParam String texto) throws SQLException {
+	public String insertarNota(@RequestParam String titulo, @RequestParam String texto, @RequestParam String imagennota) throws SQLException {
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),env.getProperty("spring.datasource.username"),env.getProperty("spring.datasource.password"));
 			
 		PreparedStatement consulta = 
-				connection.prepareStatement("INSERT INTO notas(titulo, texto) VALUES(?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
+				connection.prepareStatement("INSERT INTO notas(titulo, texto, imagennota) VALUES(?, ?, ?);", PreparedStatement.RETURN_GENERATED_KEYS);
 		consulta.setString(1, titulo);
 		consulta.setString(2, texto);
+		consulta.setString(3, imagennota);
 			
 		int affected = consulta.executeUpdate();
 			
